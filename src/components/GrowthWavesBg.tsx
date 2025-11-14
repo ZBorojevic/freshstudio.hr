@@ -15,7 +15,7 @@ const GrowthWavesBg: React.FC = () => {
 
     let step = 0;
     const colorIndices = [0, 1, 2, 3]; // ✅ const je ok, mijenjamo samo elemente
-    const gradientSpeed = 0.01;       // ⚡ brže (bilo 0.002)
+    const gradientSpeed = 0.003;       // ⚡ brže (bilo 0.004)
 
     let raf = 0;
 
