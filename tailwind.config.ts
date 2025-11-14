@@ -1,18 +1,61 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate"; // ESM import (umjesto require)
 
-export default {
+const config: Config = {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      screens: { "2xl": "1400px" },
     },
     extend: {
+      /* ✅ DODANO — sistemski fontovi */
+      fontFamily: {
+        // koristi za naslove: className="font-display"
+        display: [
+          "SF Pro Display",
+          "-apple-system",
+          "system-ui",
+          "BlinkMacSystemFont",
+          '"Segoe UI"',
+          "Roboto",
+          '"Helvetica Neue"',
+          "Arial",
+          "sans-serif",
+        ],
+        // koristi za tekst: className="font-sans"
+        sans: [
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          '"Segoe UI"',
+          "Roboto",
+          '"Helvetica Neue"',
+          "Arial",
+          "sans-serif",
+        ],
+        // koristi za code: className="font-mono"
+        mono: [
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Monaco",
+          "Consolas",
+          '"Liberation Mono"',
+          '"Courier New"',
+          "monospace",
+        ],
+      },
+
+      /* ⬇ sve tvoje postojeće vrijednosti — ne diram */
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -66,54 +109,34 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       backgroundImage: {
-        'gradient-hero': 'var(--gradient-hero)',
-        'gradient-subtle': 'var(--gradient-subtle)',
+        "gradient-hero": "var(--gradient-hero)",
+        "gradient-subtle": "var(--gradient-subtle)",
       },
       boxShadow: {
-        'soft': 'var(--shadow-soft)',
-        'medium': 'var(--shadow-medium)',
-        'large': 'var(--shadow-large)',
+        soft: "var(--shadow-soft)",
+        medium: "var(--shadow-medium)",
+        large: "var(--shadow-large)",
       },
       transitionProperty: {
-        'base': 'var(--transition-base)',
-        'fast': 'var(--transition-fast)',
+        base: "var(--transition-base)",
+        fast: "var(--transition-fast)",
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
         "fade-in": {
-          from: {
-            opacity: "0",
-            transform: "translateY(10px)",
-          },
-          to: {
-            opacity: "1",
-            transform: "translateY(0)",
-          },
+          from: { opacity: "0", transform: "translateY(10px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
         "slide-in-left": {
-          from: {
-            opacity: "0",
-            transform: "translateX(-20px)",
-          },
-          to: {
-            opacity: "1",
-            transform: "translateX(0)",
-          },
+          from: { opacity: "0", transform: "translateX(-20px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
         },
       },
       animation: {
@@ -124,5 +147,7 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+  plugins: [animate],
+};
+
+export default config;

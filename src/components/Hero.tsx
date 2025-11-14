@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import heroImage from "@/assets/hero-bg.jpg";
+import heroImage from "@/assets/hero-bg.png";
 import LanguageToggle from "./LanguageToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 
