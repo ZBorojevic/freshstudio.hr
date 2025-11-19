@@ -7,6 +7,8 @@ import { Mail, Phone, Clock, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+const API_URL = "http://185.58.73.156:4000/contact";
+
 const Contact = () => {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({
@@ -20,20 +22,55 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Osnovna provjera (frontend)
+    if (!formData.name || !formData.email || !formData.message) {
+      toast({
+        title: t("contact.errorTitle"),
+        description: t("contact.errorDesc"),
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
-    // Simulate form submission (will be replaced with actual email sending)
-    setTimeout(() => {
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || "Failed to send");
+      }
+
       toast({
         title: t("contact.toastTitle"),
         description: t("contact.toastDesc"),
       });
+
       setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: t("contact.errorTitle"),
+        description: t("contact.errorDesc"),
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -41,14 +78,14 @@ const Contact = () => {
     {
       icon: Mail,
       titleKey: "contact.infoEmail",
-      content: "info@vasaagencija.com",
-      href: "mailto:info@vasaagencija.com",
+      content: "hello@freshstudio.hr",
+      href: "mailto:hello@freshstudio.hr",
     },
     {
       icon: Phone,
       titleKey: "contact.infoPhone",
-      content: "+381 11 123 4567",
-      href: "tel:+381111234567",
+      content: "+385 99 447 2090",
+      href: "tel:+385994472090",
     },
     {
       icon: Clock,
@@ -68,7 +105,8 @@ const Contact = () => {
               <span className="font-semibold">{t("contact.badge")}</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              {t("contact.title")} <span className="text-primary">{t("contact.titleHighlight")}</span>
+              {t("contact.title")}{" "}
+              <span className="text-primary">{t("contact.titleHighlight")}</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               {t("contact.subtitle")}
@@ -80,7 +118,10 @@ const Contact = () => {
             <Card className="p-8 shadow-large bg-card">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2 text-foreground">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-semibold mb-2 text-foreground"
+                  >
                     {t("contact.nameLabel")} *
                   </label>
                   <Input
@@ -93,9 +134,11 @@ const Contact = () => {
                     className="w-full"
                   />
                 </div>
-
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2 text-foreground">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-semibold mb-2 text-foreground"
+                  >
                     {t("contact.emailLabel")} *
                   </label>
                   <Input
@@ -109,9 +152,11 @@ const Contact = () => {
                     className="w-full"
                   />
                 </div>
-
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium mb-2 text-foreground">
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-semibold mb-2 text-foreground"
+                  >
                     {t("contact.phoneLabel")}
                   </label>
                   <Input
@@ -124,9 +169,11 @@ const Contact = () => {
                     className="w-full"
                   />
                 </div>
-
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-2 text-foreground">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-semibold mb-2 text-foreground"
+                  >
                     {t("contact.messageLabel")} *
                   </label>
                   <Textarea
@@ -140,17 +187,17 @@ const Contact = () => {
                     className="w-full"
                   />
                 </div>
-
-                <Button 
-                  type="submit" 
-                  size="lg" 
+                <Button
+                  type="submit"
+                  size="lg"
                   variant="hero"
                   disabled={isSubmitting}
                   className="w-full"
                 >
-                  {isSubmitting ? t("contact.submitting") : t("contact.submitButton")}
+                  {isSubmitting
+                    ? t("contact.submitting")
+                    : t("contact.submitButton")}
                 </Button>
-
                 <p className="text-sm text-muted-foreground text-center">
                   {t("contact.disclaimer")}
                 </p>
@@ -160,7 +207,7 @@ const Contact = () => {
             {/* Contact Info */}
             <div className="space-y-8">
               {contactInfo.map((info, index) => (
-                <Card 
+                <Card
                   key={index}
                   className="p-6 hover:shadow-medium transition-all duration-300 bg-card animate-slide-in-left"
                   style={{ animationDelay: `${index * 0.1}s` }}
@@ -170,16 +217,20 @@ const Contact = () => {
                       <info.icon className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">{t(info.titleKey)}</h3>
+                      <h3 className="font-semibold text-foreground mb-1">
+                        {t(info.titleKey)}
+                      </h3>
                       {info.href ? (
-                        <a 
+                        <a
                           href={info.href}
                           className="text-muted-foreground hover:text-primary transition-colors"
                         >
                           {info.content}
                         </a>
                       ) : (
-                        <p className="text-muted-foreground">{info.contentKey ? t(info.contentKey) : info.content}</p>
+                        <p className="text-muted-foreground">
+                          {info.contentKey ? t(info.contentKey) : info.content}
+                        </p>
                       )}
                     </div>
                   </div>

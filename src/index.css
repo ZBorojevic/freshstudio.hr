@@ -114,7 +114,7 @@
   body { @apply bg-background text-foreground; }
 
   /* ✅ (Opcionalno) naslovi koriste display stack */
-  h1, h2, h3, h4 { @apply font-display; }
+  h1, h2, h3, h4 { @apply font-bold; }
 }
 
 /* Tvoj postojeći demo stil — ostavljam netaknut.

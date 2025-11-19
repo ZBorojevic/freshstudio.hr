@@ -1,7 +1,7 @@
+// Hero.tsx
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-bg.png";
-import LanguageToggle from "./LanguageToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Hero = () => {
@@ -12,12 +12,10 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Language Toggle - Fixed position */}
-      <div className="absolute top-6 right-6 z-20 animate-fade-in">
-        <LanguageToggle />
-      </div>
-
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
@@ -25,7 +23,7 @@ const Hero = () => {
           alt="Marketing agency background" 
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/85" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/75 to-background/35" />
       </div>
 
       {/* Content */}

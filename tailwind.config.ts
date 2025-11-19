@@ -17,7 +17,6 @@ const config: Config = {
       screens: { "2xl": "1400px" },
     },
     extend: {
-      /* ✅ DODANO — sistemski fontovi */
       fontFamily: {
         // koristi za naslove: className="font-display"
         display: [
@@ -33,8 +32,8 @@ const config: Config = {
         ],
         // koristi za tekst: className="font-sans"
         sans: [
-          "system-ui",
           "-apple-system",
+          "system-ui",
           "BlinkMacSystemFont",
           '"Segoe UI"',
           "Roboto",
@@ -54,7 +53,6 @@ const config: Config = {
           "monospace",
         ],
       },
-
       /* ⬇ sve tvoje postojeće vrijednosti — ne diram */
       colors: {
         border: "hsl(var(--border))",
