@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import CookieConsent from "@/components/CookieConsent";
+import PrivacyAndCookies from "@/pages/PrivacyAndCookies";
 
 const queryClient = new QueryClient();
 
@@ -14,11 +16,13 @@ const App = () => (
     <LanguageProvider>
       <TooltipProvider>
         <Toaster />
+        <CookieConsent />
         <Sonner />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/privacy-policy" element={<PrivacyAndCookies />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

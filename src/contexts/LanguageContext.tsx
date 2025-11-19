@@ -149,10 +149,105 @@ const translations = {
       hoursTitle: "Radno vrijeme",
       hoursContent: "Ponedjeljak - Petak",
       hoursTime: "9:00 - 17:00",
-      bookMeeting: "Zakažite sastanak →",
+      privacyAndCookies: "Pravila privatnosti i kolačića",
       copyright: "Fresh Studio. Sva prava pridržana.",
     },
+    legal: {
+      title: "Pravila privatnosti i kolačića",
+      lastUpdated: "Posljednje ažuriranje: 2025.",
+      section1Title: "1. Voditelj obrade",
+      section1BodyPrefix: "Voditelj obrade osobnih podataka je",
+      section1BodySuffix:
+        ", sa sjedištem u Koprivnici, Hrvatska. Za sva pitanja vezana uz obradu podataka možete nam se javiti na hello@freshstudio.hr.",
+
+      section2Title: "2. Koje podatke prikupljamo",
+      analyticsTitle: "2.1. Podaci o korištenju web stranice",
+      analyticsBody:
+        "Ova web stranica može prikupljati osnovne tehničke informacije (npr. IP adresa, tip preglednika, datum i vrijeme posjete) koje su nužne za prikaz stranice i sigurnost sustava. Ne koristimo ove podatke za izradu vašeg profila niti za marketinško praćenje.",
+
+      contactFormTitle: "2.2. Podaci iz kontakt forme",
+      contactFormIntro:
+        "Kada ispunite i pošaljete kontakt formu, možemo prikupiti sljedeće podatke:",
+      contactFormItemName: "Ime i prezime",
+      contactFormItemEmail: "Email adresu",
+      contactFormItemPhone: "Broj telefona (ako ga dobrovoljno unesete)",
+      contactFormItemMessage: "Sadržaj poruke koju nam šaljete",
+      contactFormUsage:
+        "Ove podatke koristimo isključivo kako bismo vam odgovorili na upit, pripremili ponudu te komunicirali o potencijalnoj ili postojećoj suradnji.",
+
+      cookiesTitle: "3. Kolačići (Cookies)",
+      cookiesIntro:
+        "Kolačići su male tekstualne datoteke koje se spremaju na vaš uređaj kada posjetite web stranicu. Koristimo ih kako bi stranica ispravno funkcionirala i, uz vašu privolu, radi boljeg razumijevanja korištenja stranice.",
+      cookiesNecessary:
+        "Nužni kolačići: neophodni su za osnovno funkcioniranje web stranice (npr. sigurnost, prikaz sadržaja) i ne mogu se isključiti u našim sustavima.",
+      cookiesAnalytics:
+        "Analitički kolačići: koriste se za praćenje posjećenosti i razumijevanje načina korištenja stranice. Aktiviraju se samo ako ih prihvatite putem bannera za kolačiće.",
+      cookiesConsentInfo:
+        "Postavke kolačića možete promijeniti u svom pregledniku ili povlačenjem privole. Ako odbijete analitičke kolačiće, web stranica će i dalje biti dostupna, ali neke funkcionalnosti praćenja posjećenosti možda neće biti aktivne.",
+
+      rightsTitle: "4. Vaša prava prema GDPR-u",
+      rightsBody:
+        "Imate pravo na pristup svojim osobnim podacima, ispravak, brisanje, ograničenje obrade, prigovor na obradu te pravo na prenosivost podataka. Također imate pravo povući svoju privolu u bilo kojem trenutku. Za ostvarivanje svojih prava, kontaktirajte nas na",
+      back: "Natrag",
+    },
+    cookies: {
+      bannerTitle: "Koristimo kolačiće",
+      bannerText:
+        "Ova web stranica koristi kolačiće kako bi poboljšala vaše korisničko iskustvo i analizirala posjećenost. Klikom na \"Prihvaćam\" složit ćete se s korištenjem kolačića u skladu s našim Pravilima privatnosti i kolačića.",
+      accept: "Prihvaćam",
+      moreInfo: "Saznajte više",
+    },
+    privacyPage: {
+      title: "Pravila privatnosti i kolačića",
+      updated: "Posljednje ažuriranje: 2025.",
+      intro:
+        "Ova Pravila privatnosti i kolačića objašnjavaju kako Fresh Studio prikuplja, koristi i štiti vaše osobne podatke te na koji način koristi kolačiće na ovoj web stranici. Poštujemo vašu privatnost i obrađujemo podatke u skladu s Općom uredbom o zaštiti podataka (GDPR).",
+
+      section1Title: "1. Voditelj obrade",
+      section1Body:
+        "Voditelj obrade osobnih podataka je Fresh Studio, obrt za računalno programiranje, dizajn i usluge. Sjedište: Koprivnica, Hrvatska. Kontakt: hello@freshstudio.hr.",
+
+      section2Title: "2. Koje podatke prikupljamo",
+      section2Body:
+        "Podatke prikupljamo isključivo kada nam ih dobrovoljno dostavite putem kontakt forme. To uključuje: (1) Ime i prezime, (2) Email adresu, (3) Broj telefona, (4) Informacije koje unesete u poruku. Ne prikupljamo osjetljive podatke niti podatke koje ne unesete sami.",
+
+      section3Title: "3. Svrha i pravna osnova obrade",
+      section3Body:
+        "Vaše osobne podatke obrađujemo samo u sljedeće svrhe: (1) Odgovaranje na vaš upit, (2) Komunikaciju vezanu uz potencijalnu suradnju, (3) Izradu ponude ili dogovor oko sastanka. Pravna osnova za obradu je vaš dobrovoljni pristanak – slanjem poruke pristajete da obradimo dostavljene podatke za navedene svrhe.",
+
+      cookiesTitle: "4. Kolačići (Cookies)",
+      cookiesBody:
+        "Ova web stranica koristi samo nužne kolačiće za osnovno funkcioniranje stranice. Ne koristimo marketinške ili analitičke kolačiće bez vaše privole. Ako se u budućnosti uvedu dodatni kolačići, korisnik će ih moći zasebno prihvatiti ili odbiti putem bannera za privolu.",
+
+      section5Title: "5. Dijeljenje podataka s trećim stranama",
+      section5Body:
+        "Vaši podaci se ne dijele s trećim stranama, ne prodaju se i ne koriste u marketinške ili oglašivačke svrhe. Podatke obrađujemo isključivo interno u svrhu komunikacije s vama.",
+
+      section6Title: "6. Rok čuvanja podataka",
+      section6Body:
+        "Vaši podaci se čuvaju samo onoliko dugo koliko je potrebno za komunikaciju i obradu vašeg zahtjeva. Nakon završetka komunikacije, podaci se brišu, osim ako pravila računovodstva ili legitimni poslovni interes zahtijevaju dulje čuvanje (npr. izrada ponude ili započeta suradnja).",
+
+      rightsTitle: "7. Vaša prava prema GDPR-u",
+      rightsBody:
+        "U bilo kojem trenutku imate pravo: (1) zatražiti pristup svojim podacima, (2) ispravak netočnih podataka, (3) brisanje podataka ('pravo na zaborav'), (4) ograničenje obrade, (5) prigovor na obradu, (6) pravo na prijenos podataka. Svoja prava možete ostvariti slanjem zahtjeva na hello@freshstudio.hr.",
+
+      section8Title: "8. Sigurnost podataka",
+      section8Body:
+        "Podatke štitimo tehničkim i organizacijskim mjerama kako bismo spriječili neovlašteni pristup, gubitak ili zloupotrebu. Pristup podacima imaju samo osobe ovlaštene od strane Fresh Studija.",
+
+      section9Title: "9. Kolačići trećih strana",
+      section9Body:
+        "Trenutno ne koristimo kolačiće trećih strana (npr. Google Analytics, Meta Pixel). Ako ih naknadno uvedemo, ova Pravila bit će ažurirana, a korisnik će imati mogućnost dati privolu prije aktivacije takvih kolačića.",
+
+      contactTitle: "10. Kontakt za privatnost i GDPR upite",
+      contactBody:
+        "Za sva pitanja vezana uz zaštitu podataka, ostvarivanje svojih prava ili povlačenje privole, kontaktirajte nas na: hello@freshstudio.hr.",
+
+      disclaimer:
+        "Ovaj dokument služi kao informativni prikaz praksi obrade podataka Fresh Studija i ne predstavlja pravni savjet. Ako želite potpunu pravnu procjenu usklađenosti, preporučujemo konzultaciju sa stručnjakom za GDPR.",
+    },
   },
+  
   en: {
     hero: {
       title: "More growth, more revenue,",
@@ -254,14 +349,108 @@ const translations = {
       errorDesc: "Please try again or contact us directly at hello@freshstudio.hr.",
     },
     footer: {
-      company: "Your Agency",
+      company: "Fresh Studio",
       description: "Marketing and design agency that guarantees results. Your growth partner.",
       contactTitle: "Contact",
       hoursTitle: "Business hours",
       hoursContent: "Monday - Friday",
       hoursTime: "9:00 AM - 6:00 PM",
-      bookMeeting: "Schedule a meeting →",
+      privacyAndCookies: "Privacy & Cookie Policy",
       copyright: "Fresh Studio. All rights reserved.",
+    },
+    legal: {
+      title: "Privacy & Cookie Policy",
+      lastUpdated: "Last updated: 2025",
+      section1Title: "1. Data Controller",
+      section1BodyPrefix: "The data controller is",
+      section1BodySuffix:
+        ", based in Koprivnica, Croatia. For any questions regarding data processing, you can contact us at hello@freshstudio.hr.",
+
+      section2Title: "2. Data we collect",
+      analyticsTitle: "2.1. Website usage data",
+      analyticsBody:
+        "This website may collect basic technical information (e.g. IP address, browser type, date and time of visit) required for displaying the site and ensuring system security. We do not use this information to create a personal profile or for marketing tracking.",
+
+      contactFormTitle: "2.2. Data from the contact form",
+      contactFormIntro:
+        "When you fill out and submit the contact form, we may collect the following data:",
+      contactFormItemName: "Full name",
+      contactFormItemEmail: "Email address",
+      contactFormItemPhone: "Phone number (if you provide it)",
+      contactFormItemMessage: "The content of the message you send us",
+      contactFormUsage:
+        "We use this data solely to respond to your inquiry, prepare an offer, and communicate about potential or ongoing cooperation.",
+
+      cookiesTitle: "3. Cookies",
+      cookiesIntro:
+        "Cookies are small text files stored on your device when you visit a website. We use them to ensure the website functions properly and, with your consent, to better understand how the site is used.",
+      cookiesNecessary:
+        "Necessary cookies: required for the basic operation of the website (e.g. security, displaying content) and cannot be disabled in our systems.",
+      cookiesAnalytics:
+        "Analytics cookies: used to measure traffic and understand how users interact with the website. They are only activated if you accept them via the cookie banner.",
+      cookiesConsentInfo:
+        "You can change your cookie settings in your browser or by withdrawing your consent. If you decline analytics cookies, the website will still be available, but some traffic measurement features may not be active.",
+
+      rightsTitle: "4. Your GDPR rights",
+      rightsBody:
+        "You have the right to access your personal data, request rectification or deletion, restrict processing, object to processing, and the right to data portability. You also have the right to withdraw your consent at any time. To exercise your rights, please contact us at",
+      back: "Back",
+    },
+    cookies: {
+      bannerTitle: "We use cookies",
+      bannerText:
+        "This website uses cookies to improve your experience and analyze traffic. By clicking \"Accept\", you agree to the use of cookies in line with our Privacy & Cookie Policy.",
+      accept: "Accept",
+      moreInfo: "Learn more",
+    },
+    privacyPage: {
+      title: "Privacy & Cookie Policy",
+      updated: "Last updated: 2025",
+      intro:
+        "This Privacy & Cookie Policy explains how Fresh Studio collects, uses, and protects your personal data, and how cookies are used on this website. We respect your privacy and process all personal data in accordance with the General Data Protection Regulation (GDPR).",
+
+      section1Title: "1. Data Controller",
+      section1Body:
+        "The data controller is Fresh Studio, a sole proprietorship providing software development, design, and marketing services. Location: Koprivnica, Croatia. Contact: hello@freshstudio.hr.",
+
+      section2Title: "2. Data we collect",
+      section2Body:
+        "We collect personal data only when you voluntarily submit it via the contact form. This includes: (1) Full name, (2) Email address, (3) Phone number, (4) Any information you choose to include in your message. We do not collect sensitive categories of data.",
+
+      section3Title: "3. Purpose and legal basis of processing",
+      section3Body:
+        "We process your personal data solely for the following purposes: (1) Responding to your inquiry, (2) Communicating regarding potential cooperation, (3) Preparing offers or arranging a meeting. The legal basis for processing is your voluntary consent—by submitting the contact form, you consent to us processing the provided data for these purposes.",
+
+      cookiesTitle: "4. Cookies",
+      cookiesBody:
+        "This website uses only essential cookies required for basic functionality. We do not use marketing or analytics cookies without your explicit consent. If additional cookies are introduced in the future, users will be able to accept or decline them through a consent banner.",
+
+      section5Title: "5. Sharing data with third parties",
+      section5Body:
+        "We do not share, sell, or disclose your personal data to third parties for marketing or advertising purposes. Your data is processed internally only for communication and service-related purposes.",
+
+      section6Title: "6. Data retention period",
+      section6Body:
+        "We retain your personal data only for as long as necessary to respond to your inquiry and complete any related communication. Data is deleted once it is no longer needed, unless legal or legitimate business reasons require longer retention (such as preparing an offer or ongoing cooperation).",
+
+      rightsTitle: "7. Your GDPR rights",
+      rightsBody:
+        "You have the right to: (1) request access to your data, (2) request correction of inaccurate data, (3) request deletion ('right to be forgotten'), (4) restrict processing, (5) object to processing, (6) request data portability. You can exercise your rights by contacting us at hello@freshstudio.hr.",
+
+      section8Title: "8. Data security",
+      section8Body:
+        "We apply appropriate technical and organizational measures to protect your data from unauthorized access, loss, or misuse. Access to data is restricted to authorized personnel within Fresh Studio.",
+
+      section9Title: "9. Third-party cookies",
+      section9Body:
+        "We currently do not use any third-party cookies (such as Google Analytics or Meta Pixel). If we introduce them in the future, this Policy will be updated and users will be able to give explicit consent before they are activated.",
+
+      contactTitle: "10. Contact for privacy and GDPR inquiries",
+      contactBody:
+        "For any questions regarding data protection, exercising your rights, or withdrawing consent, please contact us at: hello@freshstudio.hr.",
+
+      disclaimer:
+        "This document provides an overview of Fresh Studio's data protection practices and does not constitute legal advice. For a complete legal review of GDPR compliance, we recommend consulting a GDPR professional.",
     },
   },
 };

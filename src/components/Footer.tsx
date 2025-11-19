@@ -1,16 +1,16 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import logoDark from "@/assets/logo-dark.svg"; // ← dodano
+import logoDark from "@/assets/logo-dark.svg";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const { t } = useLanguage();
 
   return (
     <footer className="bg-foreground text-background py-12" id="footer">
-      <div className="container px-4 mx-auto">
+      <div className="container mx-auto px-6 sm:px-8 lg:px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            
-            {/* Logo umjesto footer.company */}
+          <div className="grid md:grid-cols-3 gap-10 mb-10">
+            {/* Logo + opis */}
             <div>
               <a href="/" className="inline-block">
                 <img
@@ -24,38 +24,40 @@ const Footer = () => {
               </p>
             </div>
 
-    {/* Contact */}
-    <div>
-      <h4 className="font-semibold mb-4 text-lg">
-        {t("footer.contactTitle")}
-      </h4>
+            {/* Kontakt */}
+            <div>
+              <h4 className="font-semibold mb-4 text-lg">
+                {t("footer.contactTitle")}
+              </h4>
 
-      <ul className="space-y-2 text-background/80">
-        <li>
-          <a>Email: </a> 
-          <a 
-            href="mailto:hello@freshstudio.hr"
-            className="hover:underline"
-          >
-            hello@freshstudio.hr
-          </a>
-        </li>
+              <ul className="space-y-2 text-background/80">
+                <li>
+                  <span>Email: </span>
+                  <a
+                    href="mailto:hello@freshstudio.hr"
+                    className="hover:underline"
+                  >
+                    hello@freshstudio.hr
+                  </a>
+                </li>
 
-        <li>
-            <a>Tel: </a> 
-          <a 
-            href="tel:+385994472090"
-            className="hover:underline"
-          >+385 99 447 2090
-          </a>
-        </li>
+                <li>
+                  <span>Tel: </span>
+                  <a
+                    href="tel:+385994472090"
+                    className="hover:underline"
+                  >
+                    +385 99 447 2090
+                  </a>
+                </li>
 
-        <li>Koprivnica, Croatia</li>
-      </ul>
-    </div>
+                <li>
+                  Fresh Studio, obrt za računalno programiranje, dizajn i usluge
+                </li>
+              </ul>
+            </div>
 
-
-            {/* Hours */}
+            {/* Radno vrijeme */}
             <div>
               <h4 className="font-semibold mb-4 text-lg">
                 {t("footer.hoursTitle")}
@@ -63,20 +65,21 @@ const Footer = () => {
               <ul className="space-y-2 text-background/80">
                 <li>{t("footer.hoursContent")}</li>
                 <li>{t("footer.hoursTime")}</li>
-                <li className="pt-2">
-                  <a href="#contact" className="text-secondary hover:underline">
-                    {t("footer.bookMeeting")}
-                  </a>
-                </li>
               </ul>
             </div>
           </div>
 
-          {/* Bottom copyright */}
-          <div className="border-t border-background/20 pt-8 text-center text-background/60 text-sm">
-            <p>
+          {/* Bottom bar: copyright + pravila */}
+          <div className="border-t border-background/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-background/60">
+            <p className="text-center md:text-left">
               &copy; {new Date().getFullYear()} {t("footer.copyright")}
             </p>
+
+            <div className="flex flex-wrap items-center gap-4 justify-center md:justify-end">
+              <Link to="/privacy-policy" className="hover:underline">
+                {t("footer.privacyAndCookies")}
+              </Link>
+            </div>
           </div>
         </div>
       </div>
