@@ -27,11 +27,22 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
 
   const t = (key: string): string => {
     const keys = key.split(".");
-    let value: any = translations[language];
+    let value: unknown = translations[language];
+
     for (const k of keys) {
-      value = value?.[k];
+      if (
+        value &&
+        typeof value === "object" &&
+        k in (value as Record<string, unknown>)
+      ) {
+        value = (value as Record<string, unknown>)[k];
+      } else {
+        value = undefined;
+        break;
+      }
     }
-    return value || key;
+
+    return typeof value === "string" ? value : key;
   };
 
   return (
@@ -62,18 +73,18 @@ const translations = {
           problem1Title: "Radite marketing sami (DIY)",
           problem1Desc: "Osnovali ste posao da radite ono što volite, ne da postanete marketing stručnjak. Učenje, testiranje, greške - sve to košta vrijeme i novac. Dok vi gubite vrijeme na marketing, konkurencija raste.",
           problem2Title: "Zapošljavate marketinšku osobu",
-          problem2Desc: "Rizik je ogroman. Plata 1000-2000€ mjesečno, plus beneficije. Što ako pogriješite u izboru? Što ako ta osoba ne donosi rezultate? Otpuštanje, nova potražnja, još novca bačenog. Minimum 6 mjeseci samo da vidite radi li to.",
+          problem2Desc: "Rizik je ogroman. Plaća 1500-2500€ mjesečno, plus beneficije. Što ako pogriješite u izboru? Što ako ta osoba ne donosi rezultate? Otpuštanje, nova potražnja, još novca bačenog. Minimum 6 mjeseci samo da vidite radi li to.",
           problem3Title: "Angažirate 'klasičnu' agenciju",
           problem3Desc: "Veliki klijenti dobijaju A tim. Vi ste mali klijent? Dobit ćete početnike koji uče na vašem budžetu. Dugački ugovori, nedostupnost, generičke strategije. Platite 2000-5000€ mjesečno i nadajte se najboljem.",
           emphasis1: "Dok razmišljate što da radite,",
           emphasis2: "gubite 10-50 klijenata mjesečno.",
-          emphasis3: "Vaša konkurencija ih već dobiva",  // Dodano/popravljeno emphasis3
+          emphasis3: "Vaša konkurencija ih već dobiva.",  // Dodano/popravljeno emphasis3
           closingText: "Svaki dan čekanja je izgubljeni novac. Koliko vas košta da NE radite ništa?",
         },
     solution: {
       badge: "Rješenje je ovdje",
       title: "Marketing usmjeren na",
-      titleHighlight: "prodaju, ne na nagrade",
+      titleHighlight: "prodaju, ne na nagrade.",
       subtitle: "Nismo 'kreativna' agencija koja pravi lijepe slike za Instagram. Mi smo partner koji donosi klijente i povećava vašu prodaju. Sve ostalo je nebitno.",
       solution1Title: "Biramo klijente pažljivo",
       solution1Desc: "Radimo samo sa 15 klijenata mjesečno. Ne više. Znači dobijate punu pažnju, ne budžetski tretman. Vaš uspjeh je naš uspjeh - i to shvaćamo ozbiljno.",
@@ -261,8 +272,8 @@ const translations = {
   en: {
     hero: {
       title: "More growth, more revenue,",
-      titleHighlight: "more clients",
-      titleGuarantee: "guaranteed",
+      titleHighlight: "more clients.",
+      titleGuarantee: "Guaranteed.",
       subtitle: "You do what you do best, and we handle the marketing. Together, we'll take your business to the next level.",
       ctaPrimary: "Schedule a free consultation",
       ctaSecondary: "Learn how",
@@ -272,8 +283,8 @@ const translations = {
     },
     problem: {
       badge: "Sound familiar?",
-      title: "Your business is losing money",
-      titleHighlight: "every day",
+      title: "Your business is losing money.",
+      titleHighlight: "Every day.",
       subtitle: "While you're reading this, your competition is attracting clients you should have. Every day of delay costs you more than you think...",
       problem1Title: "Doing marketing yourself (DIY)",
       problem1Desc: "You started your business to do what you love, not to become a marketing expert. Learning, testing, mistakes - all cost time and money. While you waste time on marketing, competition grows.",
@@ -289,7 +300,7 @@ const translations = {
     solution: {
       badge: "The solution is here",
       title: "Marketing focused on",
-      titleHighlight: "sales, not awards",
+      titleHighlight: "sales, not awards.",
       subtitle: "We're not a 'creative' agency making pretty Instagram pictures. We're a partner that brings clients and increases your sales. Everything else is irrelevant.",
       solution1Title: "We choose clients carefully",
       solution1Desc: "We work with only 15 clients per month. No more. That means you get full attention, not budget treatment. Your success is our success - and we take that seriously.",
@@ -310,7 +321,7 @@ const translations = {
     guarantee: {
       badge: "Our guarantee",
       title: "We share the risk",
-      titleSecondary: "with you",
+      titleSecondary: "with you.",
       subtitle: "Big agencies take money upfront and then 'we'll see'. We do it differently because we're confident in results:",
       guarantee1Title: "100% Money-back guarantee",
       guarantee1Desc: "If in the first 90 days we don't achieve agreed results - we refund every penny. No Fine Print. No 'buts'. No complications.",
