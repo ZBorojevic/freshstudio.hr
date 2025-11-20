@@ -140,7 +140,17 @@ const translations = {
       toastTitle: "Poruka poslana!",
       toastDesc: "Kontaktirat ćemo vas u najkraćem mogućem roku.",
       errorTitle: "Došlo je do greške",
-      errorDesc: "Pokušajte ponovno ili nas kontaktirajte direktno na hello@freshstudio.hr."
+      errorDesc: "Pokušajte ponovno ili nas kontaktirajte direktno na hello@freshstudio.hr.",
+      privacyConsentPrefix: "Slanjem ove forme potvrđujem da sam pročitao/pročitala i prihvaćam",
+      privacyLinkText: "Pravila privatnosti i kolačića",
+      errorPrivacy: "Morate prihvatiti Pravila privatnosti i kolačića prije slanja.",
+      subjectLabel: "Predmet",
+      subjectPlaceholder: "O čemu se radi?",
+      errorCaptcha: "Molimo potvrdite da niste robot.",
+      errorSubject: "Molimo unesite predmet poruke.",
+      errorName: "Molimo unesite ispravno ime i prezime (samo slova).",
+      errorEmail: "Molimo unesite ispravnu email adresu.",
+      errorMessage: "Poruka je prekratka. Napišite barem nekoliko rečenica.",
     },
     footer: {
       company: "Fresh Studio",
@@ -247,7 +257,7 @@ const translations = {
         "Ovaj dokument služi kao informativni prikaz praksi obrade podataka Fresh Studija i ne predstavlja pravni savjet. Ako želite potpunu pravnu procjenu usklađenosti, preporučujemo konzultaciju sa stručnjakom za GDPR.",
     },
   },
-  
+
   en: {
     hero: {
       title: "More growth, more revenue,",
@@ -347,6 +357,17 @@ const translations = {
       toastDesc: "We'll contact you as soon as possible.",
       errorTitle: "Something went wrong",
       errorDesc: "Please try again or contact us directly at hello@freshstudio.hr.",
+      privacyConsentPrefix: "By submitting this form I confirm that I have read and accept the",
+      privacyLinkText: "Privacy & Cookie Policy",
+      errorPrivacy: "You must accept the Privacy & Cookie Policy before submitting.",
+      subjectLabel: "Subject",
+      subjectPlaceholder: "What is it about?",
+      errorCaptcha: "Please confirm you are not a robot.",
+      errorSubject: "Please enter a subject.",
+      errorName: "Please enter a valid name (letters only).",
+      errorEmail: "Please enter a valid email address.",
+      errorMessage: "Your message is too short. Please provide a bit more detail.",
+
     },
     footer: {
       company: "Fresh Studio",

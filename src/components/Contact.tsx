@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -6,58 +6,90 @@ import { Card } from "@/components/ui/card";
 import { Mail, Phone, Clock, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const API_URL = "http://185.58.73.156:4000/contact";
+const RECAPTCHA_SITE_KEY = "6Lf6IRIsAAAAAHAV4DCd7hptcg7e11y3UB0nUBF2";
+
+// ✅ Ime: podržava sva slova (HR + EN), razmake, apostrof i crticu
+const isValidName = (name: string) => {
+  const trimmed = name.trim();
+  if (trimmed.length < 3) return false;
+
+  // \p{L} = bilo koje slovo (č, ć, ž, š, đ, ä, ö...)
+  const nameRegex = /^[\p{L}\s'-]+$/u;
+  return nameRegex.test(trimmed);
+};
+
+// ✅ Email: jednostavna, ali solidna provjera formata
+const isValidEmail = (email: string) => {
+  const trimmed = email.trim().toLowerCase();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(trimmed);
+};
 
 const Contact = () => {
   const { t } = useLanguage();
+  const { toast } = useToast();
+
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
+    subject: "",
     message: "",
+    website: "", // honeypot
+    privacyAccepted: false,
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
+  const [showRecaptcha, setShowRecaptcha] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-    // Osnovna provjera (frontend)
-    if (!formData.name || !formData.email || !formData.message) {
-      toast({
-        title: t("contact.errorTitle"),
-        description: t("contact.errorDesc"),
-        variant: "destructive",
-      });
-      return;
-    }
+  // 👇 poziva se tek kad Google reCAPTCHA vrati token
+  const onRecaptchaComplete = async (token: string | null) => {
+    if (!token) return;
 
     setIsSubmitting(true);
 
     try {
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, recaptchaToken: token }),
       });
 
       const data = await res.json();
 
-      if (!res.ok || !data.ok) {
-        throw new Error(data.error || "Failed to send");
-      }
+      if (!res.ok || !data.ok) throw new Error(data.error);
 
       toast({
         title: t("contact.toastTitle"),
         description: t("contact.toastDesc"),
       });
 
-      setFormData({ name: "", email: "", phone: "", message: "" });
-    } catch (error) {
-      console.error(error);
+      // Reset forme
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+        website: "",
+        privacyAccepted: false,
+      });
+
+      if (recaptchaRef.current) recaptchaRef.current.reset();
+      setShowRecaptcha(false);
+    } catch (err) {
+      console.error(err);
       toast({
         title: t("contact.errorTitle"),
         description: t("contact.errorDesc"),
@@ -68,10 +100,71 @@ const Contact = () => {
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // 1) Prazna osnovna polja
+    if (!formData.name || !formData.email || !formData.message) {
+      return toast({
+        title: t("contact.errorTitle"),
+        description: t("contact.errorDesc"),
+        variant: "destructive",
+      });
+    }
+
+    // 2) Valjanost imena (HR + EN slova)
+    if (!isValidName(formData.name)) {
+      return toast({
+        title: t("contact.errorTitle"),
+        description: t("contact.errorName"),
+        variant: "destructive",
+      });
+    }
+
+    // 3) Valjanost emaila
+    if (!isValidEmail(formData.email)) {
+      return toast({
+        title: t("contact.errorTitle"),
+        description: t("contact.errorEmail"),
+        variant: "destructive",
+      });
+    }
+
+    // 4) Predmet obavezan
+    if (!formData.subject.trim()) {
+      return toast({
+        title: t("contact.errorTitle"),
+        description: t("contact.errorSubject"),
+        variant: "destructive",
+      });
+    }
+
+    // 5) Poruka minimalno npr. 10 znakova
+    if (formData.message.trim().length < 10) {
+      return toast({
+        title: t("contact.errorTitle"),
+        description: t("contact.errorMessage"),
+        variant: "destructive",
+      });
+    }
+
+    // 6) Privatnost mora biti prihvaćena
+    if (!formData.privacyAccepted) {
+      return toast({
+        title: t("contact.errorTitle"),
+        description: t("contact.errorPrivacy"),
+        variant: "destructive",
+      });
+    }
+
+    // 7) Ako reCAPTCHA još nije prikazana → sad je prikaži
+    if (!showRecaptcha) {
+      setShowRecaptcha(true);
+      return;
+    }
+
+    // Ako je već prikazana, dalje ništa – čekamo da user riješi captcha,
+    // a slanje ide kroz onRecaptchaComplete.
   };
 
   const contactInfo = [
@@ -99,6 +192,7 @@ const Contact = () => {
     <section id="contact" className="py-24 bg-muted/30">
       <div className="container px-4 mx-auto">
         <div className="max-w-6xl mx-auto">
+          {/* Title */}
           <div className="text-center mb-16 animate-fade-in">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-6">
               <CheckCircle2 className="h-5 w-5" />
@@ -114,79 +208,128 @@ const Contact = () => {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
+            {/* FORM */}
             <Card className="p-8 shadow-large bg-card">
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Honeypot */}
+                <div className="hidden">
+                  <input
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {/* Name */}
                 <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-semibold mb-2 text-foreground"
-                  >
+                  <label className="block text-sm font-semibold mb-2">
                     {t("contact.nameLabel")} *
                   </label>
                   <Input
-                    id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    required
                     placeholder={t("contact.namePlaceholder")}
-                    className="w-full"
                   />
                 </div>
+
+                {/* Email */}
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-semibold mb-2 text-foreground"
-                  >
+                  <label className="block text-sm font-semibold mb-2">
                     {t("contact.emailLabel")} *
                   </label>
                   <Input
-                    id="email"
                     name="email"
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
-                    required
                     placeholder={t("contact.emailPlaceholder")}
-                    className="w-full"
                   />
                 </div>
+
+                {/* Phone */}
                 <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-sm font-semibold mb-2 text-foreground"
-                  >
+                  <label className="block text-sm font-semibold mb-2">
                     {t("contact.phoneLabel")}
                   </label>
                   <Input
-                    id="phone"
                     name="phone"
-                    type="tel"
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder={t("contact.phonePlaceholder")}
-                    className="w-full"
                   />
                 </div>
+
+                {/* Subject - required */}
                 <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-semibold mb-2 text-foreground"
-                  >
+                  <label className="block text-sm font-semibold mb-2">
+                    {t("contact.subjectLabel")} *
+                  </label>
+                  <Input
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    placeholder={t("contact.subjectPlaceholder")}
+                  />
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
                     {t("contact.messageLabel")} *
                   </label>
                   <Textarea
-                    id="message"
                     name="message"
+                    rows={5}
                     value={formData.message}
                     onChange={handleChange}
-                    required
                     placeholder={t("contact.messagePlaceholder")}
-                    rows={5}
-                    className="w-full"
                   />
                 </div>
+
+                {/* Privacy checkbox */}
+                <div className="flex items-start gap-2">
+                  <input
+                    type="checkbox"
+                    id="privacyAccepted"
+                    checked={formData.privacyAccepted}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        privacyAccepted: e.target.checked,
+                      }))
+                    }
+                    className="mt-1"
+                  />
+                  <label
+                    htmlFor="privacyAccepted"
+                    className="text-sm text-muted-foreground"
+                  >
+                    {t("contact.privacyConsentPrefix")}{" "}
+                    <a
+                      href="/privacy-policy"
+                      className="text-primary underline"
+                      target="_blank"
+                    >
+                      {t("contact.privacyLinkText")}
+                    </a>
+                    .
+                  </label>
+                </div>
+
+                {/* reCAPTCHA – prikaže se tek kad user klikne Send */}
+                {showRecaptcha && (
+                  <div className="flex justify-center">
+                    <ReCAPTCHA
+                      ref={recaptchaRef}
+                      sitekey={RECAPTCHA_SITE_KEY}
+                      onChange={onRecaptchaComplete}
+                    />
+                  </div>
+                )}
+
+                {/* Submit */}
                 <Button
                   type="submit"
                   size="lg"
@@ -198,32 +341,27 @@ const Contact = () => {
                     ? t("contact.submitting")
                     : t("contact.submitButton")}
                 </Button>
-                <p className="text-sm text-muted-foreground text-center">
-                  {t("contact.disclaimer")}
-                </p>
               </form>
             </Card>
 
-            {/* Contact Info */}
+            {/* SIDEBAR */}
             <div className="space-y-8">
-              {contactInfo.map((info, index) => (
+              {contactInfo.map((info, i) => (
                 <Card
-                  key={index}
+                  key={i}
                   className="p-6 hover:shadow-medium transition-all duration-300 bg-card animate-slide-in-left"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  style={{ animationDelay: `${i * 0.1}s` }}
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
                       <info.icon className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">
-                        {t(info.titleKey)}
-                      </h3>
+                      <h3 className="font-semibold">{t(info.titleKey)}</h3>
                       {info.href ? (
                         <a
                           href={info.href}
-                          className="text-muted-foreground hover:text-primary transition-colors"
+                          className="text-muted-foreground hover:text-primary"
                         >
                           {info.content}
                         </a>
@@ -236,30 +374,6 @@ const Contact = () => {
                   </div>
                 </Card>
               ))}
-
-              <Card className="p-8 bg-gradient-hero text-white shadow-large">
-                <h3 className="text-2xl font-bold mb-4">
-                  {t("contact.benefitsTitle")}
-                </h3>
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                    <span>{t("contact.benefit1")}</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                    <span>{t("contact.benefit2")}</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                    <span>{t("contact.benefit3")}</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                    <span>{t("contact.benefit4")}</span>
-                  </li>
-                </ul>
-              </Card>
             </div>
           </div>
         </div>
